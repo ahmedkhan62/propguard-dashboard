@@ -1,3 +1,5 @@
+// File: src/pages/NewsProtection.tsx
+
 import { DashboardLayout } from "@/components/layout/DashboardLayout";
 import { Switch } from "@/components/ui/switch";
 import { motion } from "framer-motion";
@@ -13,24 +15,9 @@ const upcomingNews = [
 ];
 
 const sessions = [
-  {
-    name: "Asian Session",
-    time: "00:00 - 09:00 GMT",
-    status: "closed",
-    profit: -125,
-  },
-  {
-    name: "London Session",
-    time: "08:00 - 17:00 GMT",
-    status: "active",
-    profit: 450,
-  },
-  {
-    name: "New York Session",
-    time: "13:00 - 22:00 GMT",
-    status: "upcoming",
-    profit: 0,
-  },
+  { name: "Asian Session", time: "00:00 - 09:00 GMT", status: "closed", profit: -125 },
+  { name: "London Session", time: "08:00 - 17:00 GMT", status: "active", profit: 450 },
+  { name: "New York Session", time: "13:00 - 22:00 GMT", status: "upcoming", profit: 0 },
 ];
 
 export default function NewsProtection() {
@@ -41,23 +28,16 @@ export default function NewsProtection() {
     <DashboardLayout>
       <div className="space-y-6">
         {/* Header */}
-        <motion.div
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-        >
+        <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>
           <h1 className="text-3xl font-bold text-foreground mb-2">News & Session Protection</h1>
           <p className="text-muted-foreground">
-            Protect your trades from high-impact news and manage session performance
+            Protect your trades from high-impact news and monitor session performance
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* News Block Settings */}
-          <motion.div
-            initial={{ x: -20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            className="glass-card p-6 space-y-6"
-          >
+          <motion.div initial={{ x: -20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="glass-card p-6 space-y-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-status-warning/10 flex items-center justify-center">
                 <Newspaper className="w-5 h-5 text-status-warning" />
@@ -75,10 +55,7 @@ export default function NewsProtection() {
                   Automatically block trading before and after high-impact news
                 </p>
               </div>
-              <Switch
-                checked={newsBlockEnabled}
-                onCheckedChange={setNewsBlockEnabled}
-              />
+              <Switch checked={newsBlockEnabled} onCheckedChange={setNewsBlockEnabled} />
             </div>
 
             <div className="space-y-3">
@@ -105,11 +82,7 @@ export default function NewsProtection() {
           </motion.div>
 
           {/* Upcoming News */}
-          <motion.div
-            initial={{ x: 20, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            className="glass-card p-6 space-y-4"
-          >
+          <motion.div initial={{ x: 20, opacity: 0 }} animate={{ x: 0, opacity: 1 }} className="glass-card p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-foreground">Upcoming High-Impact News</h3>
               <span className="text-sm text-muted-foreground">Today</span>
@@ -137,9 +110,7 @@ export default function NewsProtection() {
                     <span className="text-sm text-muted-foreground">{news.event}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-muted-foreground">
-                      {news.currency}
-                    </span>
+                    <span className="text-xs font-medium text-muted-foreground">{news.currency}</span>
                     <span
                       className={cn(
                         "text-xs font-medium px-2 py-0.5 rounded-full",

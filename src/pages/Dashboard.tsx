@@ -31,7 +31,7 @@ export default function Dashboard() {
 
         {/* Status Indicator */}
         <StatusIndicator
-          status="safe"
+          status="safe" // safe / warning / danger
           message="All risk parameters within limits"
         />
 
@@ -97,7 +97,7 @@ export default function Dashboard() {
                 FTMO Challenge - Phase 1
               </p>
             </div>
-            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
+            <span className="px-3 py-1 rounded-full bg-safe/10 text-safe text-sm font-medium">
               Day 12 of 30
             </span>
           </div>
@@ -122,6 +122,7 @@ export default function Dashboard() {
               max={30}
               unit=" days"
               showPercentage={false}
+              variant="safe"
             />
           </div>
         </motion.div>
