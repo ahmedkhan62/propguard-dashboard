@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+sqlalchemy
+alembic
+pydantic
+pandas
+python-multipart
+python-dotenv
+requests
+passlib[bcrypt]
+python-jose[cryptography]
+email-validator
+metaapi-cloud-sdk
+ctrader-open-api
+reportlab==4.0.8

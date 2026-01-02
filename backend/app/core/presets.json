@@ -1,0 +1,26 @@
+{
+    "FTMO": {
+        "daily_loss_limit_pct": 5.0,
+        "max_drawdown_limit_pct": 10.0,
+        "max_daily_trades": null,
+        "max_lot_size": null,
+        "news_trading_allowed": false,
+        "description": "Standard FTMO Challenge rules (Step 1 & 2)."
+    },
+    "E8": {
+        "daily_loss_limit_pct": 5.0,
+        "max_drawdown_limit_pct": 8.0,
+        "max_daily_trades": null,
+        "max_lot_size": null,
+        "news_trading_allowed": true,
+        "description": "E8 Funding normal account rules."
+    },
+    "Instant": {
+        "daily_loss_limit_pct": 3.0,
+        "max_drawdown_limit_pct": 5.0,
+        "max_daily_trades": 5,
+        "max_lot_size": 1.0,
+        "news_trading_allowed": true,
+        "description": "Aggressive instant funding/evaluation accounts."
+    }
+}

@@ -6,17 +6,34 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
 import { TrendingUp, Mail, Lock, User, ArrowRight, Chrome, Shield } from "lucide-react";
 import { useState } from "react";
+import { ApiService } from "@/services/api";
 
 export default function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [agreed, setAgreed] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder - would connect to auth
-    window.location.href = "/dashboard";
+    setError("");
+    setLoading(true);
+
+    try {
+      await ApiService.register({
+        email,
+        password,
+        full_name: name
+      });
+      // After signup, take them to login or auto-login
+      window.location.href = "/login?signup=success";
+    } catch (err: any) {
+      setError(err.response?.data?.detail || "Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -25,7 +42,7 @@ export default function Signup() {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-        
+
         <div className="relative z-10 flex flex-col justify-center px-16">
           <motion.div
             initial={{ x: -30, opacity: 0 }}
@@ -86,6 +103,11 @@ export default function Signup() {
               <p className="text-muted-foreground">
                 Start your free trial today
               </p>
+              {error && (
+                <div className="mt-4 p-3 bg-status-danger/10 text-status-danger text-sm rounded-md border border-status-danger/20">
+                  {error}
+                </div>
+              )}
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -146,18 +168,18 @@ export default function Signup() {
                 />
                 <label htmlFor="terms" className="text-sm text-muted-foreground">
                   I agree to the{" "}
-                  <a href="#" className="text-primary hover:underline">
+                  <Link to="/terms" className="text-primary hover:underline">
                     Terms of Service
-                  </a>{" "}
+                  </Link>{" "}
                   and{" "}
-                  <a href="#" className="text-primary hover:underline">
+                  <Link to="/privacy" className="text-primary hover:underline">
                     Privacy Policy
-                  </a>
+                  </Link>
                 </label>
               </div>
 
-              <Button type="submit" variant="hero" className="w-full" disabled={!agreed}>
-                Create Account
+              <Button type="submit" variant="hero" className="w-full" disabled={!agreed || loading}>
+                {loading ? "Creating Account..." : "Create Account"}
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </form>

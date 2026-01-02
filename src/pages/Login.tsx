@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import { ApiService } from "@/services/api";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,10 +12,34 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { login } = useAuth();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder - would connect to auth
-    window.location.href = "/dashboard";
+    setError("");
+
+    try {
+      const params = new URLSearchParams();
+      params.append("username", email);
+      params.append("password", password);
+
+      const response = await ApiService.login(params as any);
+
+      // Decode the token to check role immediately for redirection
+      const payload = JSON.parse(atob(response.access_token.split('.')[1]));
+
+      login(response.access_token);
+
+      if (payload.role === "FOUNDER" || payload.role === "STAFF" || payload.role === "SUPPORT" || payload.role === "ANALYST" || payload.role === "MODERATOR") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/dashboard");
+      }
+    } catch (err) {
+      setError("Invalid email or password");
+    }
   };
 
   return (
@@ -22,7 +48,7 @@ export default function Login() {
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-background" />
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-        
+
         <div className="relative z-10 flex flex-col justify-center px-16">
           <motion.div
             initial={{ x: -30, opacity: 0 }}
@@ -82,6 +108,11 @@ export default function Login() {
               <p className="text-muted-foreground">
                 Enter your credentials to continue
               </p>
+              {error && (
+                <div className="mt-4 p-3 bg-destructive/10 text-destructive text-sm rounded-md">
+                  {error}
+                </div>
+              )}
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -103,9 +134,9 @@ export default function Login() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <a href="#" className="text-sm text-primary hover:underline">
+                  <Link to="/contact" className="text-sm text-primary hover:underline">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />

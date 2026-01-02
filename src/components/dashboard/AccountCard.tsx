@@ -54,6 +54,15 @@ export function AccountCard({ balance, equity, dailyLoss, drawdown }: AccountCar
           max={dailyLoss.max}
           unit="$"
           variant={dailyLossPercent > 70 ? "danger" : dailyLossPercent > 50 ? "warning" : "safe"}
+          infoContent={
+            <div className="space-y-3">
+              <p>The **Daily Loss Limit** is the maximum amount your account can lose in a single trading day before being locked.</p>
+              <div className="p-3 bg-status-warning/10 rounded-lg border border-status-warning/20">
+                <p className="text-[10px] font-bold text-status-warning uppercase">Why it matters:</p>
+                <p className="text-[11px]">Prop firms usually hard-reset at midnight. If you hit this limit, RiskLock will lock your interface to prevent emotional "revenge" trading during the cooldown.</p>
+              </div>
+            </div>
+          }
         />
         <ProgressBar
           label="Remaining Drawdown"
@@ -61,6 +70,15 @@ export function AccountCard({ balance, equity, dailyLoss, drawdown }: AccountCar
           max={drawdown.max}
           unit="$"
           variant={drawdownPercent > 70 ? "danger" : drawdownPercent > 50 ? "warning" : "safe"}
+          infoContent={
+            <div className="space-y-3">
+              <p>The **Overall Drawdown** is your lifetime safety net. It represents how much you can lose from your peak balance before the account is permanently breached.</p>
+              <div className="p-3 bg-status-danger/10 rounded-lg border border-status-danger/20">
+                <p className="text-[10px] font-bold text-status-danger uppercase">Critical Rule:</p>
+                <p className="text-[11px]">Unlike daily loss, this usually does **not** reset. If this reaches zero, most prop firms will fail the challenge or revoke the funded account.</p>
+              </div>
+            </div>
+          }
         />
       </div>
     </motion.div>
